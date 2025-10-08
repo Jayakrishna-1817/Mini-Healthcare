@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
+import API_BASE_URL from '../../config/api';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,12 +28,27 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('/api/auth/login', formData);
+      console.log('Attempting login with:', { email: formData.email });
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
+      console.log('Login response received:', response.data);
+      
       const { token, user } = response.data;
       
+      if (!token || !user) {
+        console.error('Invalid response format:', response.data);
+        setError('Invalid login response format');
+        return;
+      }
+      
+      console.log('Calling login function with token and user...');
       login(token, user);
+      
+      console.log('Navigating to dashboard...');
       navigate('/dashboard');
+      console.log('Navigation complete');
+      
     } catch (err) {
+      console.error('Login error:', err);
       setError(err.response?.data?.error || 'Login failed');
     } finally {
       setLoading(false);

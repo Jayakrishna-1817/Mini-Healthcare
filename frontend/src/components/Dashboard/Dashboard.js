@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../../config/api';
 
 const Dashboard = () => {
   const { user, logout, token } = useAuth();
@@ -41,7 +42,7 @@ const Dashboard = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('/api/doctors');
+      const response = await axios.get(`${API_BASE_URL}/api/doctors`);
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -50,7 +51,7 @@ const Dashboard = () => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get('/api/appointments');
+      const response = await axios.get(`${API_BASE_URL}/api/appointments`);
       setAppointments(response.data);
     } catch (error) {
       console.error('Error fetching appointments:', error);
@@ -59,7 +60,7 @@ const Dashboard = () => {
 
   const fetchTrackEntries = async () => {
     try {
-      const response = await axios.get('/api/track');
+      const response = await axios.get(`${API_BASE_URL}/api/track`);
       setTrackEntries(response.data);
     } catch (error) {
       console.error('Error fetching track entries:', error);
@@ -71,7 +72,7 @@ const Dashboard = () => {
     setLoading({ ...loading, appointment: true });
 
     try {
-      await axios.post('/api/appointment', appointmentForm);
+      await axios.post(`${API_BASE_URL}/api/appointment`, appointmentForm);
       setAppointmentForm({ doctorName: '', date: '', time: '' });
       fetchAppointments();
       alert('Appointment booked successfully! Treatment plan generated.');
@@ -87,7 +88,7 @@ const Dashboard = () => {
     setLoading({ ...loading, track: true });
 
     try {
-      await axios.post('/api/track', trackForm);
+      await axios.post(`${API_BASE_URL}/api/track`, trackForm);
       setTrackForm({ painLevel: 5, energyLevel: 5, notes: '' });
       fetchTrackEntries();
       alert('Health entry saved successfully!');

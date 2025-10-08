@@ -35,10 +35,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (tokenData, userData) => {
+    console.log('🔄 AuthContext login called with:', { tokenData: !!tokenData, userData: !!userData });
+    
+    if (!tokenData || !userData) {
+      console.error('❌ Invalid login data provided');
+      return;
+    }
+    
     setToken(tokenData);
     setUser(userData);
     localStorage.setItem('token', tokenData);
     localStorage.setItem('user', JSON.stringify(userData));
+    
+    console.log('✅ AuthContext login complete - user authenticated');
   };
 
   const logout = () => {
