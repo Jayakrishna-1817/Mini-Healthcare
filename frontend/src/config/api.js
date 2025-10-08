@@ -1,6 +1,6 @@
 // API Configuration for different environments
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? process.env.REACT_APP_API_URL || 'https://mini-healthcare-backend.onrender.co'
+  ? process.env.REACT_APP_API_URL || 'https://mini-healthcare-backend.onrender.com'
   : 'http://localhost:5001';
 
 // Debug logging
